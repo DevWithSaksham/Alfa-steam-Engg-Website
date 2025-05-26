@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ALFA STEAM ENGINEERS | Home</title>
+  <style>
+    /* Universal box-sizing for better responsiveness */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #e6f5f3;
+      color: #003300;
+      scroll-behavior: smooth;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: #004d40;
+      color: #fffde7;
+      padding: 15px 40px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+      flex-shrink: 0;
+      flex-wrap: wrap; /* Allow header content to wrap on smaller screens */
+      justify-content: center; /* Center items if they wrap */
+    }
+
+    header h1 {
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    nav {
+      display: flex;
+      gap: 30px;
+      flex-grow: 1;
+      font-weight: bold;
+      font-size: 1.1em;
+      position: relative;
+      flex-wrap: wrap; /* Allow navigation items to wrap */
+      justify-content: center; /* Center nav items if they wrap */
+    }
+
+    nav > div {
+      cursor: pointer;
+      position: relative;
+      padding: 8px 12px;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+      user-select: none;
+      white-space: nowrap; /* Prevent nav items from breaking words */
+    }
+
+    nav > div:hover,
+    nav > div.active {
+      background-color: #00695c;
+      color: #fffde7;
+    }
+
+    /* Products dropdown unchanged */
+    .products-dropdown {
+      position: absolute;
+      top: 45px;
+      left: 0;
+      background-color: #ffffff;
+      color: #004d40;
+      border-radius: 5px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      display: none; /* Controlled by hover on parent */
+      min-width: 220px;
+      z-index: 10;
+      font-weight: normal;
+      font-size: 0.95em;
+      padding: 10px 0;
+    }
+
+    #products-tab:hover .products-dropdown {
+      display: block;
+    }
+
+    .products-dropdown a,
+    .sealing-submenu a {
+      display: block;
+      padding: 10px 20px;
+      text-decoration: none;
+      color: #004d40;
+      white-space: nowrap;
+    }
+
+    .products-dropdown a:hover,
+    .sealing-submenu a:hover {
+      background-color: #e6f5f3;
+      text-decoration: underline;
+    }
+
+    .sealing-container {
+      position: relative;
+    }
+
+    .sealing-submenu {
+      position: absolute;
+      top: 0;
+      left: 100%;
+      background-color: #ffffff;
+      border-radius: 5px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      display: none; /* Controlled by hover on parent */
+      min-width: 220px;
+      padding: 10px 0;
+    }
+
+    .sealing-container:hover .sealing-submenu {
+      display: block;
+    }
+
+    /* New dropdown styles for About, Success and Contact */
+    .dropdown-hover {
+      position: absolute;
+      top: 45px; /* Position below the nav tab */
+      left: 0; /* Align with the parent tab */
+      background-color: #ffffff;
+      color: #004d40;
+      border-radius: 5px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      min-width: 300px; /* Increased min-width for wider appearance */
+      max-width: 450px; /* Increased max-width to control overall length */
+      z-index: 10;
+      padding: 20px 30px; /* Increased padding for more internal space */
+      font-weight: normal;
+      font-size: 0.95em;
+      opacity: 0; /* Hidden by default */
+      pointer-events: none; /* Prevents interaction when hidden */
+      transition: opacity 0.3s ease; /* Smooth fade-in/out */
+      white-space: normal; /* Allows text to wrap within the dropdown */
+      box-sizing: border-box;
+    }
+
+    /* Show dropdown on hover of the parent nav div */
+    nav > div:hover > .dropdown-hover {
+      opacity: 1;
+      pointer-events: auto; /* Allows interaction when visible */
+    }
+
+    .dropdown-hover a.learn-more {
+      color: #00695c;
+      font-weight: bold;
+      margin-left: 8px;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .dropdown-hover a.learn-more:hover {
+      color: #004d40;
+    }
+
+    /* Styles for general section tag, e.g., "Our Core Services" */
+    section {
+        background-color: #ffffff;
+        padding: 2.5rem;
+        margin: 2rem auto; /* Default margin for general sections */
+        max-width: 1200px;
+        border-radius: 0.75rem; /* rounded-xl */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .whatsapp-float img {
+      width: 60px;
+      height: 60px;
+      transition: transform 0.2s;
+    }
+
+    .whatsapp-float img:hover {
+      transform: scale(1.1);
+    }
+
+    .contact-footer-line {
+      background-color: #e6f5f3;
+      color: #004d40;
+      font-size: 0.9em;
+      font-weight: normal;
+      padding: 12px 40px;
+      border-top: 1px solid #004d40;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+
+    .contact-footer-line a {
+      color: #004d40;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .contact-footer-line a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background-color: #004d40;
+      color: #fffde7;
+      text-align: center;
+      padding: 15px 40px;
+      border-top: 4px solid #003322;
+      margin: 0;
+      flex-shrink: 0;
+    }
+
+    /* Media Queries for better responsiveness on smaller screens */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px 20px;
+      }
+
+      nav {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        width: 100%; /* Make nav take full width */
+      }
+
+      nav > div {
+        width: 100%; /* Make each nav item take full width */
+        text-align: center;
+        padding: 10px 0;
+        position: relative; /* Ensure relative for dropdown positioning */
+      }
+
+      /* Ensure dropdowns are positioned correctly and responsively */
+      .products-dropdown,
+      .dropdown-hover {
+        position: absolute;
+        top: 100%; /* Position directly below the full-width tab */
+        left: 0; /* Align with the start of the full-width tab */
+        width: 100%; /* Make dropdowns full width of the parent tab */
+        min-width: unset; /* Override previous min-width to allow shrinking */
+        max-width: unset; /* Override max-width for smaller screens */
+        padding: 15px 20px; /* Adjust padding for smaller screens if needed */
+        box-sizing: border-box;
+      }
+
+      /* Special fix for Contact Us dropdown to avoid cutoff */
+      #contact-tab .dropdown-hover {
+        max-height: 300px; /* Limit height if needed */
+        overflow-y: auto; /* Scroll if content is tall */
+        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      }
+
+      .sealing-submenu {
+        left: 0; /* Align submenu under its parent on small screens */
+        min-width: 100%; /* Make submenu full width as well */
+      }
+
+      .sealing-container:hover .sealing-submenu {
+        display: block; /* Still show on hover */
+      }
+
+      .contact-footer-line {
+        flex-direction: column;
+        gap: 8px;
+        padding: 10px 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header img {
+        height: 60px; /* Smaller logo on very small screens */
+      }
+
+      header h1 {
+        font-size: 1.5em; /* Smaller heading */
+      }
+
+      .whatsapp-float img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+    /* Product Gallery Styles */
+    .product-gallery {
+      padding: 40px 20px;
+      background-color: #f9f9f9;
+    }
+
+    .product-gallery h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #004d40;
+      font-size: 2em;
+    }
+
+    .scroll-row {
+      overflow: hidden;
+      position: relative;
+      margin: 20px 0;
+    }
+
+    .scroll-content {
+      display: flex;
+      width: max-content; /* Allows content to take up as much width as needed */
+    }
+
+    /* Animation for Row 1 (Right to Left bounce) */
+    .scroll-row.row-one .scroll-content {
+        animation: scroll-rtl-bounce 40s ease-in-out infinite;
+    }
+
+    /* Animation for Row 2 (Left to Right bounce) */
+    .scroll-row.row-two .scroll-content {
+        animation: scroll-ltr-bounce 40s ease-in-out infinite;
+    }
+
+    .product-item {
+      flex: 0 0 auto;
+      width: 300px; /* Adjust as needed for item size */
+      margin: 0 10px;
+      text-align: center;
+    }
+
+    .product-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .product-item p {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    /* Keyframes for Right-to-Left bouncing scroll */
+    @keyframes scroll-rtl-bounce {
+      0% {
+        transform: translateX(0%);
+      }
+      50% {
+        transform: translateX(-50%); /* Scrolls content half its width */
+      }
+      100% {
+        transform: translateX(0%);
+      }
+    }
+
+    /* Keyframes for Left-to-Right bouncing scroll */
+    @keyframes scroll-ltr-bounce {
+      0% {
+        transform: translateX(-50%); /* Starts at the 'end' of the first half */
+      }
+      50% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .product-item {
+        width: 200px;
+      }
+    }
+    /* Styles for general section tag, e.g., "Our Core Services" */
+    section {
+        background-color: #ffffff;
+        padding: 2.5rem;
+        margin: 2rem auto; /* Default margin for general sections */
+        max-width: 1200px;
+        border-radius: 0.75rem; /* rounded-xl */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Specific styles for the new content area (consolidated and adjusted) */
+    .main-content-area {
+        display: flex;
+        flex-direction: row; /* Default to row layout */
+        justify-content: center;
+        align-items: center;
+        gap: 2.5rem; /* Space between text and image */
+        padding: 2.5rem;
+        max-width: 1200px;
+        /* THIS IS THE KEY CHANGE FOR THE GAP */
+        margin: 0 auto 2.5rem auto; /* Removed top margin, kept bottom margin, centered horizontally */
+        background-color: #ffffff;
+        border-radius: 0.75rem; /* rounded-xl */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    }
+
+    .company-about {
+        flex: 1; /* Allows this div to grow and shrink */
+        min-width: 300px; /* Minimum width before wrapping */
+        text-align: justify;
+    }
+
+    .industrial-image {
+        flex: 1; /* Allows this div to grow and shrink */
+        min-width: 300px; /* Minimum width before wrapping */
+        text-align: right; /* Align image to the right within its container */
+    }
+
+    .industrial-image img {
+        max-width: 100%; /* Ensure image is responsive */
+        height: auto; /* Maintain aspect ratio */
+        border-radius: 0.75rem; /* rounded-xl */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* More prominent shadow */
+        transition: transform 0.3s ease-in-out; /* Smooth hover effect */
+    }
+
+    .industrial-image img:hover {
+        transform: scale(1.02); /* Slightly enlarge on hover */
+    }
+
+    /* Responsive adjustments for smaller screens for main-content-area (consolidated) */
+    @media (max-width: 768px) {
+        .main-content-area {
+            flex-direction: column; /* Stack items vertically */
+            gap: 2rem; /* Adjust gap for stacked layout */
+            padding: 1.5rem;
+        }
+
+        .company-about,
+        .industrial-image {
+            text-align: center; /* Center text and image when stacked */
+            min-width: unset; /* Remove min-width to allow full width */
+        }
+    }
+
+    /* Marquee Styles - Re-added */
+    marquee {
+      background-color: #009688;
+      color: #fff;
+      padding: 10px;
+      font-weight: bold;
+    }
+    marquee a { /* Targeting links specifically within marquee */
+      color: #ffd600;
+      text-decoration: none;
+    }
+    marquee a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="images/alfasteamengineers.jpg" alt="Company Logo" style="height:80px; width:auto;">
+  <h1>ALFA STEAM ENGINEERS</h1>
+  <nav>
+    <div id="products-tab">
+      Products
+      <div class="products-dropdown">
+        <div class="sealing-container">
+          <a href="#">Sealing Products ▸</a>
+          <div class="sealing-submenu">
+            <a href="mechanical-seals.html">Mechanical Seal</a>
+          </div>
+        </div>
+        <a href="#">Product 2</a>
+        <a href="#">Product 3</a>
+        <a href="#">Product 4</a>
+        <a href="#">Product 5</a>
+        <a href="#">Product 6</a>
+      </div>
+    </div>
+
+    <div id="catalogs-tab">Catalogs</div>
+
+    <div id="about-tab">
+      About Us
+      <div class="dropdown-hover">
+        We are a leading provider of industrial sealing and steam solutions, committed to quality and innovation.<br>
+        Our team brings years of experience and excellence in every product.
+        <a class="learn-more" href="about.html">Learn More</a>
+      </div>
+    </div>
+
+    <div id="success-tab">
+      Success Stories
+      <div class="dropdown-hover">
+        Explore how our products have transformed industries with superior performance and reliability.<br>
+        Customer testimonials and case studies available.
+        <a class="learn-more" href="success.html">Learn More</a>
+      </div>
+    </div>
+
+    <div id="contact-tab">
+  Contact Us
+  <div class="dropdown-hover">
+    Phone:
+    <a href="tel:+919423686421">+91 9423686421</a>,
+    <a href="tel:+919422103864">+91 9422103864</a><br>
+    Email:
+    <a href="mailto:alfasteamengineers@gmail.com">alfasteamengineers@gmail.com</a>
+  </div>
+</div>
+
+    </div>
+  </nav>
+</header>
+
+<div class="whatsapp-float">
+  <a href="https://wa.me/919822466917" target="_blank" rel="noopener noreferrer">
+    <img src="images/social.png" alt="WhatsApp Logo" />
+  </a>
+</div>
+
+<marquee behavior="scroll" direction="left">
+  Contact us at: <a href="mailto:indiaoffice@alfasteamengineers.com">indiaoffice@alfasteamengineers.com</a> |
+  Call: <a href="tel:+919423686421">9423686421</a> / <a href="tel:+919422103864">9422103864</a> &nbsp;&nbsp;&nbsp;&nbsp;
+  Contact us at: <a href="mailto:indiaoffice@alfasteamengineers.com">indiaoffice@alfasteamengineers.com</a> |
+  Call: <a href="tel:+919423686421">9423686421</a> / <a href="tel:+919422103864">9422103864</a> &nbsp;&nbsp;&nbsp;&nbsp;
+  Contact us at: <a href="mailto:indiaoffice@alfasteamengineers.com">indiaoffice@alfasteamengineers.com</a> |
+  Call: <a href="tel:+919423686421">9423686421</a> / <a href="tel:+919422103864">9422103864</a>
+  Contact us at: <a href="mailto:indiaoffice@alfasteamengineers.com">indiaoffice@alfasteamengineers.com</a> |
+  Call: <a href="tel:+919423686421">9423686421</a> / <a href="tel:+919422103864">9422103864</a>
+  Contact us at: <a href="mailto:indiaoffice@alfasteamengineers.com">indiaoffice@alfasteamengineers.com</a> |
+  Call: <a href="tel:+919423686421">9423686421</a> / <a href="tel:+919422103864">9422103864</a>
+</marquee>
+
+    <div class="main-content-area">
+        <div class="company-about">
+            <h2 class="text-3xl font-semibold mb-4 text-gray-800">About Our Mechanical Expertise</h2>
+            <p class="text-lg leading-relaxed mb-4 text-gray-700">
+                At ALFA STEAM ENGINEERS, we are pioneers in advanced mechanical engineering, delivering robust and efficient solutions tailored to the most demanding industrial environments. Our expertise spans precision manufacturing, automated systems, heavy machinery design, and sustainable energy infrastructure. We pride ourselves on our meticulous approach, from initial concept and detailed CAD modeling to rigorous testing and seamless integration.
+            </p>
+            <p class="text-lg leading-relaxed text-gray-700">
+                Our team of certified engineers and skilled technicians leverages cutting-edge technology and decades of collective experience to tackle complex challenges. Whether it's optimizing production lines, developing custom components, or providing comprehensive maintenance services, we are committed to enhancing operational efficiency and ensuring the longevity of your mechanical assets. Partner with us for innovation, reliability, and unparalleled technical support.
+            </p>
+        </div>
+        <div class="industrial-image">
+            <img src="images/industry.jpg" alt="Industrial machinery or facility interior, showcasing advanced equipment and operations."
+                 onerror="this.onerror=null; this.src='https://placehold.co/600x400/333/FFF?text=Image+Not+Found';">
+        </div>
+    </div>
+
+<marquee behavior="scroll" direction="left">
+  Contact us at: <a href="mailto:indiaoffice@alfasteamengineers.com">indiaoffice@alfasteamengineers.com</a> |
+  Call: <a href="tel:+919423686421">9423686421</a> / <a href="tel:+919422103864">9422103864</a> &nbsp;&nbsp;&nbsp;&nbsp;
+  Contact us at: <a href="mailto:indiaoffice@alfasteamengineers.com">indiaoffice@alfasteamengineers.com</a> |
+  Call: <a href="tel:+919423686421">9423686421</a> / <a href="tel:+919422103864">9422103864</a> &nbsp;&nbsp;&nbsp;&nbsp;
+  Contact us at: <a href="mailto:indiaoffice@alfasteamengineers.com">indiaoffice@alfasteamengineers.com</a> |
+  Call: <a href="tel:+919423686421">9423686421</a> / <a href="tel:+919422103864">9422103864</a>
+  Contact us at: <a href="mailto:indiaoffice@alfasteamengineers.com">indiaoffice@alfasteamengineers.com</a> |
+  Call: <a href="tel:+919423686421">9423686421</a> / <a href="tel:+919422103864">9422103864</a>
+  Contact us at: <a href="mailto:indiaoffice@alfasteamengineers.com">indiaoffice@alfasteamengineers.com</a> |
+  Call: <a href="tel:+919423686421">9423686421</a> / <a href="tel:+919422103864">9422103864</a>
+</marquee>
+
+    <section>
+        <h2 class="text-3xl font-bold mb-4 text-gray-800">Our Core Services</h2>
+        <p class="text-lg leading-relaxed text-gray-700">
+            We offer a comprehensive suite of services including custom machinery fabrication, industrial automation integration, mechanical system upgrades, preventative maintenance, and rapid prototyping. Our solutions are designed to boost productivity, reduce downtime, and ensure compliance with industry standards.
+        </p>
+        <p class="text-lg leading-relaxed text-gray-700">
+            Contact us today to discuss how our mechanical engineering prowess can benefit your next project.
+        </p>
+    </section>
+
+<section class="product-gallery">
+  <h2>Our Products</h2>
+
+  <div class="scroll-row row-one">
+    <div class="scroll-content">
+      <div class="product-item">
+        <img src="images/home page images/hydraulic pump1.png" alt="Hydraulic Pump">
+        <p>Hydraulic Pump</p>
+      </div>
+      <div class="product-item">
+        <img src="images/home page images/pneumatic.png" alt="Pneumatic Cylinder">
+        <p>Pneumatic Cylinder</p>
+      </div>
+      <div class="product-item">
+        <img src="images/home page images/piston valve.jpeg" alt="Piston Valves">
+        <p>Piston Valves</p>
+      </div>
+      <div class="product-item">
+        <img src="images/home page images/industrial fan.png" alt="Industrial Fan">
+        <p>Industrial Fan</p>
+      </div>
+      <div class="product-item">
+        <img src="images/home page images/ball bearing.png" alt="Ball Bearing">
+        <p>Ball Bearing</p>
+      </div>
+      <div class="product-item">
+        <img src="images/home page images/Lathe chuck.png" alt="Lathe Chuck">
+        <p>Lathe Chuck</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-row row-two">
+    <div class="scroll-content">
+      <div class="product-item">
+        <img src="images/home page images/conveyer belt.jpeg" alt="Conveyor Belt">
+        <p>Conveyor Belt</p>
+      </div>
+      <div class="product-item">
+        <img src="images/home page images/electric motor.png" alt="Electric Motor">
+        <p>Electric Motor</p>
+      </div>
+      <div class="product-item">
+        <img src="images/home page images/chain pulley block.jpeg" alt="Chain Pulley Block">
+        <p>Chain Pulley Block</p>
+      </div>
+      <div class="product-item">
+        <img src="images/home page images/heat exchanger.jpeg">
+        <p>Heat Exchanger</p>
+      </div>
+      <div class="product-item">
+        <img src="images/home page images/IMG_0909.jpeg" alt="Welding Machines">
+        <p>Ball Bearnings</p>
+      </div>
+      <div class="product-item">
+        <img src="images/home page images/air compressor.png" alt="Air Compressor">
+        <p>Air Compressor</p>
+      </div>
+      <div class="product-item">
+        <img src="images/home page images/gasket sheets.jpeg" alt="Gasket Sheets">
+        <p>Gasket Sheets</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="contact-footer-line">
+  <a href="https://goo.gl/maps/JbiN11QMrXTK5qVp9" target="_blank" rel="noopener noreferrer">Visit Our Workshop</a>|
+  <a href="https://wa.me/+91 9423686421" target="_blank" rel="noopener noreferrer">WhatsApp</a>|
+  <a href="mailto:alfasteamengineers@gmail.com">Email</a>
+
+</div>
+
+
+
+<footer>
+  &copy; 2025 Alfa Steam Engineers - All rights reserved.
+</footer>
+
+</body>
+</html>
